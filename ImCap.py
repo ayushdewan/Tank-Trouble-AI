@@ -5,6 +5,7 @@ from PyQt5 import QtGui
 import numpy as np
 import cv2
 from PIL import Image
+from colorlabeler import findTankCentroid
 
 
 def takeimage():
@@ -18,4 +19,4 @@ def takeimage():
     boom = np.array(pilimg)
     return boom
 
-cv2.imwrite("boom.png", takeimage())
+print(findTankCentroid(takeimage(), "green"))

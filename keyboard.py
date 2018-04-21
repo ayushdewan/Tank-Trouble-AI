@@ -10,4 +10,3 @@ def forward():
 	pyautogui.press("up")
 def backward():
 	pyautogui.press("down")
-
