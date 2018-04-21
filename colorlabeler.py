@@ -10,12 +10,6 @@ bounds = {
 	"orange" : (np.array([10, 100, 100]), np.array([20, 255, 255]))
 }
 
-def density(img, color):
-	lower = bounds[color][0]
-	upper = bounds[color][1]
-	mask = cv2.inRange(img, lower, upper)
-	return np.sum(mask)/255
-
 def findTankCentroid(img, color = "green"):
 	lower = bounds[color][0]
 	upper = bounds[color][1]
@@ -32,11 +26,3 @@ def findTankCentroid(img, color = "green"):
 	mask[int(x / num_hits)][int(y / num_hits)] = 150
 	cv2.imwrite("yo.png", mask)
 	return (x / num_hits, y / num_hits)
-
-def cubestr(data):
-	ret = ""
-	for i in "URFDLB":
-		ret += "".join(data[i])
-	for i in "URFDLB":
-		ret = ret.replace(data[i][4], i)
-	return ret
