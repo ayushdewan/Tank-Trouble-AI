@@ -19,4 +19,4 @@ def takeimage():
     boom = np.array(pilimg)
     return boom
 
-print(findTankCentroid(takeimage(), "green"))
+print(findTankCentroid(takeimage(), "red"))

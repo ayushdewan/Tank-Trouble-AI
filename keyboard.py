@@ -1,12 +1,12 @@
 import pyautogui
 
 def shoot():
-	pyautogui.press("m")
+	pyautogui.press("q")
 def right():
-	pyautogui.press("right")
+	pyautogui.press("f")
 def left():
-	pyautogui.press("left")
+	pyautogui.press("s")
 def forward():
-	pyautogui.press("up")
+	pyautogui.press("w")
 def backward():
-	pyautogui.press("down")
+	pyautogui.press("s")
