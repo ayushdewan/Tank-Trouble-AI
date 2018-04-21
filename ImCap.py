@@ -7,25 +7,15 @@ import cv2
 from PIL import Image
 
 
-
-
-
-
 def takeimage():
     global boom
     app = QApplication(sys.argv)
     screen = QGuiApplication.primaryScreen()
-    desktopPixmap = screen.grabWindow(0,464,170,180,275)
+    desktopPixmap = screen.grabWindow(0,400,160,630,430)
     qimage1 = desktopPixmap.toImage()
     bytes =qimage1.bits().asstring(qimage1.byteCount())
     pilimg = Image.frombuffer("RGBA",(qimage1.width(),qimage1.height()),bytes,'raw', "RGBA", 0, 1)
-    img = np.array(pilimg)
-    boom = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    boom = np.array(pilimg)
     return boom
-    
 
-boom = takeimage()
-
- 
-
-
+cv2.imwrite("boom.png", takeimage())
