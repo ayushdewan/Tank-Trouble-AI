@@ -37,7 +37,7 @@ def lineFind(img):
             plt.plot([x1,x2],[y1,y2])
             mag = math.hypot(x1-x2, y1-y2)
             if mag < minLength[0]:
-                minLength = [mag, math.atan2(float(x1 - x2), float(y1 - y2))]
+                minLength = [mag, -float(x2 - x1) / float(y2 - y1)]
 
             cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
 
@@ -47,4 +47,8 @@ def lineFind(img):
 
 
     cv2.imwrite("skrrr.png", lines_edges)
-    plt.show()
+    #plt.show()
+    return minLength[1]
+
+def raytrace(p, d):
+    pass
