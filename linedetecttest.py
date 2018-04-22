@@ -55,10 +55,15 @@ def lineFind(img):
     return minLength[1]
 
 def raytrace(img, p, d):
+    print(img)
     cv2.circle(img, (10,0), 3, (0, 255, 0, 255), -1)
     curr = [p[1], p[0]]
-    for i in range(1):
+    pix = np.array([77, 77, 77, 255])
+    walls = cv2.inRange(img, pix, pix)
+    for i in range(140):
         intcurr = (int(curr[0]), int(curr[1]))
+        if walls[intcurr[1]][intcurr[0]] > 0:
+            d = [-d[0], d[1]]
         cv2.circle(img, intcurr, 3, (0, 255, 0, 255), -1)
         curr = [curr[0] + d[1], curr[1] + d[0]]
         print(curr)
