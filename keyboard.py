@@ -1,12 +1,22 @@
-import pyautogui
+import pyautogui, time
 
 def shoot():
-	pyautogui.press("q")
+	pyautogui.keyDown("q")
+	time.sleep(0.5)
+	pyautogui.keyUp("q")
 def right():
-	pyautogui.press("f")
+	pyautogui.keyDown("f")
+	time.sleep(0.5)
+	pyautogui.keyUp("f")
 def left():
-	pyautogui.press("s")
+	pyautogui.keyDown("s")
+	time.sleep(0.5)
+	pyautogui.keyUp("s")
 def forward():
-	pyautogui.press("w")
+	pyautogui.keyDown("e")
+	time.sleep(0.5)
+	pyautogui.keyUp("e")
 def backward():
-	pyautogui.press("s")
+	pyautogui.keyDown("d")
+	time.sleep(0.5)
+	pyautogui.keyUp("d")

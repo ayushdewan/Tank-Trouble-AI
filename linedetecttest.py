@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import keyboard
 
 def lineFind(img):
     #img = cv2.imread("meme.png")
@@ -18,7 +19,7 @@ def lineFind(img):
     rho = 1  # distance resolution in pixels of the Hough grid
     theta = np.pi / 180  # angular resolution in radians of the Hough grid
     threshold = 15  # minimum number of votes (intersections in Hough grid cell)
-    min_line_length = 15  # minimum number of pixels making up a line
+    min_line_length = 10  # minimum number of pixels making up a line
     max_line_gap = 20  # maximum gap in pixels between connectable line segments
     line_image = np.copy(img) * 0  # creating a blank to draw lines on
 
@@ -39,6 +40,7 @@ def lineFind(img):
             print(mag)
             if mag < minLength[0]:
                 if y2 - y1 == 0:
+                    print("faggotass")
                     minLength = [mag, 7]
                 else:
                     minLength = [mag, float(x2 - x1) / float(y2 - y1)]
@@ -60,11 +62,32 @@ def raytrace(img, p, d):
     curr = [p[1], p[0]]
     pix = np.array([77, 77, 77, 255])
     walls = cv2.inRange(img, pix, pix)
-    for i in range(140):
+    cv2.imwrite("walls.png", walls)
+    for i in range(200):
         intcurr = (int(curr[0]), int(curr[1]))
         if walls[intcurr[1]][intcurr[0]] > 0:
-            d = [-d[0], d[1]]
-        cv2.circle(img, intcurr, 3, (0, 255, 0, 255), -1)
+            if walls[intcurr[1]][intcurr[0]+10]>0 or walls[intcurr[1]][intcurr[0]-10]>0:
+                d = [-d[0], d[1]]
+                curr = [curr[0] + d[1], curr[1] + d[0]]
+                intcurr = (int(curr[0]), int(curr[1]))
+                if walls[intcurr[1]][intcurr[0]] > 0:
+                    print("f")
+                    d = [-d[0], -d[1]]
+                    curr = [curr[0] + d[1], curr[1] + d[0]]
+                    intcurr = (int(curr[0]), int(curr[1]))
+            else:
+                d = [d[0], -d[1]]
+                curr = [curr[0] + d[1], curr[1] + d[0]]
+                intcurr = (int(curr[0]), int(curr[1]))
+                if walls[intcurr[1]][intcurr[0]] > 0:
+                    print("f")
+                    d = [-d[0], -d[1]]
+                    curr = [curr[0] + d[1], curr[1] + d[0]]
+                    intcurr = (int(curr[0]), int(curr[1]))
+
+
+        #cv2.circle(img, intcurr, 3, (0, 255, 0, 255), -1)
+        # keyboard.forward()
+        img[intcurr[1]][intcurr[0]] = np.array([0, 255, 255, 255])
         curr = [curr[0] + d[1], curr[1] + d[0]]
-        print(curr)
     cv2.imwrite("ray.png", img)
