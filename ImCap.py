@@ -6,6 +6,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from colorlabeler import findTankCentroid
+from linedetecttest import lineFind
 
 
 def takeimage():
@@ -19,4 +20,8 @@ def takeimage():
     boom = np.array(pilimg)
     return boom
 
-print(findTankCentroid(takeimage(), "red"))
+img = takeimage()
+p = findTankCentroid(img, "red")
+print(p)
+cv2.imwrite("cropped.png", img[(p[0] - 50) : (p[0] + 50), (p[1] - 50) : (p[1] + 50)])
+lineFind(img[p[0] - 20 : p[0] + 20, p[1] -20 : p[1] + 20])

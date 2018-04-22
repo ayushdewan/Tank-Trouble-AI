@@ -2,44 +2,49 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+def lineFind(img):
+    #img = cv2.imread("meme.png")
+    gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
 
-img = cv2.imread("meme.png")
-gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
-kernel_size = 5
-blur_gray = cv2.GaussianBlur(gray,(kernel_size, kernel_size),0)
-
-
-low_threshold = 50
-high_threshold = 150
-edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
+    kernel_size = 5
+    blur_gray = cv2.GaussianBlur(gray,(kernel_size, kernel_size),0)
 
 
-rho = 1  # distance resolution in pixels of the Hough grid
-theta = np.pi / 180  # angular resolution in radians of the Hough grid
-threshold = 15  # minimum number of votes (intersections in Hough grid cell)
-min_line_length = 50  # minimum number of pixels making up a line
-max_line_gap = 20  # maximum gap in pixels between connectable line segments
-line_image = np.copy(img) * 0  # creating a blank to draw lines on
-
-# Run Hough on edge detected image
-# Output "lines" is an array containing endpoints of detected line segments
-lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]),
-                    min_line_length, max_line_gap)
-
-print(lines)
+    low_threshold = 50
+    high_threshold = 150
+    edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
 
 
-for line in lines:
-    for x1,y1,x2,y2 in line:
-    	plt.plot([x1,x2],[y1,y2])
+    rho = 1  # distance resolution in pixels of the Hough grid
+    theta = np.pi / 180  # angular resolution in radians of the Hough grid
+    threshold = 15  # minimum number of votes (intersections in Hough grid cell)
+    min_line_length = 15  # minimum number of pixels making up a line
+    max_line_gap = 20  # maximum gap in pixels between connectable line segments
+    line_image = np.copy(img) * 0  # creating a blank to draw lines on
 
-    	cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
+    # Run Hough on edge detected image
+    # Output "lines" is an array containing endpoints of detected line segments
+    lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]),
+                        min_line_length, max_line_gap)
+
+    print(lines)
 
 
-lines_edges = cv2.addWeighted(img, 0.8, line_image, 1, 0)
+    import math
+    minLength = [1000000.0, 0]
+    for line in lines:
+        for x1,y1,x2,y2 in line:
+            plt.plot([x1,x2],[y1,y2])
+            mag = math.hypot(x1-x2, y1-y2)
+            if mag < minLength[0]:
+                minLength = [mag, math.atan2(float(x1 - x2), float(y1 - y2))]
 
-cv2.imwrite("skrrr.png", lines_edges)
-plt.show()
+            cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
+
+    print(minLength)
+    lines_edges = cv2.addWeighted(img, 0.8, line_image, 1, 0)
 
 
+
+    cv2.imwrite("skrrr.png", lines_edges)
+    plt.show()
