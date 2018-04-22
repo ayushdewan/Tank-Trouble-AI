@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from colorlabeler import findTankCentroid
-from linedetecttest import lineFind
+from linedetecttest import lineFind, raytrace
 
 
 def takeimage():
@@ -24,4 +24,5 @@ img = takeimage()
 p = findTankCentroid(img, "red")
 print(p)
 cv2.imwrite("cropped.png", img[(p[0] - 50) : (p[0] + 50), (p[1] - 50) : (p[1] + 50)])
-lineFind(img[p[0] - 25 : p[0] + 25, p[1] -25 : p[1] + 25])
+m = lineFind(img[p[0] - 25 : p[0] + 25, p[1] -25 : p[1] + 25])
+raytrace(img, p, (1, -1/m))

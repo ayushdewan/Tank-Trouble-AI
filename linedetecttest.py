@@ -53,3 +53,13 @@ def lineFind(img):
     cv2.imwrite("skrrr.png", lines_edges)
     plt.show()
     return minLength[1]
+
+def raytrace(img, p, d):
+    cv2.circle(img, (10,0), 3, (0, 255, 0, 255), -1)
+    curr = [p[1], p[0]]
+    for i in range(1):
+        intcurr = (int(curr[0]), int(curr[1]))
+        cv2.circle(img, intcurr, 3, (0, 255, 0, 255), -1)
+        curr = [curr[0] + d[1], curr[1] + d[0]]
+        print(curr)
+    cv2.imwrite("ray.png", img)
