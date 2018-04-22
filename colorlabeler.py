@@ -24,5 +24,4 @@ def findTankCentroid(img, color = "green"):
 				y += j
 				num_hits += 1
 	mask[int(x / num_hits)][int(y / num_hits)] = 150
-	cv2.imwrite("yo.png", mask)
 	return (int(x / num_hits), int(y / num_hits))

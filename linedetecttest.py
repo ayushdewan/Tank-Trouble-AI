@@ -61,7 +61,6 @@ def raytrace(img, p, d):
     curr = [p[1], p[0]]
     pix = np.array([77, 77, 77, 255])
     walls = cv2.inRange(img, pix, pix)
-    cv2.imwrite("walls.png", walls)
     for i in range(200):
         intcurr = (int(curr[0]), int(curr[1]))
         if walls[intcurr[1]][intcurr[0]] > 0:
@@ -88,3 +87,4 @@ def raytrace(img, p, d):
         img[intcurr[1]][intcurr[0]] = np.array([0, 255, 255, 255])
         curr = [curr[0] + d[1], curr[1] + d[0]]
     cv2.imwrite("ray.png", img)
+    return img

@@ -33,7 +33,6 @@ if initp[0] < p[0]:
     fac = +1
 
 print(initp, p)
-cv2.imwrite("cropped.png", img[p[0] - 25 : p[0] + 25, p[1] -25 : p[1] + 25])
 m = lineFind(img[p[0] - 25 : p[0] + 25, p[1] -25 : p[1] + 25])
 if m == 0.0:
     raytrace(img, p, [1 * fac, 0])
