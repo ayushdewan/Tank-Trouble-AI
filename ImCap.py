@@ -3,11 +3,11 @@ from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtGui
 import numpy as np
-import cv2
+import cv2, time
 from PIL import Image
 from colorlabeler import findTankCentroid
 from linedetecttest import lineFind, raytrace
-from keyboard import shoot
+from keyboard import shoot, forward
 
 
 def takeimage():
@@ -22,18 +22,25 @@ def takeimage():
     return boom
 
 img = takeimage()
+initp = findTankCentroid(img, "red")
+time.sleep(1)
+forward()
+img = takeimage()
 p = findTankCentroid(img, "red")
-print(p)
-cv2.imwrite("cropped.png", img)
+
+fac = -1
+if initp[0] < p[0]:
+    fac = +1
+
+print(initp, p)
+cv2.imwrite("cropped.png", img[p[0] - 25 : p[0] + 25, p[1] -25 : p[1] + 25])
 m = lineFind(img[p[0] - 25 : p[0] + 25, p[1] -25 : p[1] + 25])
-print(m, "nfn")
 if m == 0.0:
-    raytrace(img, p, [-1, 0])
+    raytrace(img, p, [1 * fac, 0])
 elif m == -0.0:
-    raytrace(img, p, [-1, 7])
+    raytrace(img, p, [1 * fac, -7 * fac])
 else:
     if abs(1 / m) > 8:
-        raytrace(img, p, [-7*m, 7])
+        raytrace(img, p, [7*m * fac, -7*fac])
     else:
-        raytrace(img, p, [-1, 1/m])
-shoot()
+        raytrace(img, p, [1*fac, -1/m*fac])

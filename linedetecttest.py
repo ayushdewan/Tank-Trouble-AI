@@ -28,7 +28,6 @@ def lineFind(img):
     lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]),
                         min_line_length, max_line_gap)
 
-    print(lines)
 
 
     import math
@@ -40,24 +39,24 @@ def lineFind(img):
             print(mag)
             if mag < minLength[0]:
                 if y2 - y1 == 0:
-                    print("faggotass")
                     minLength = [mag, 7]
                 else:
                     minLength = [mag, float(x2 - x1) / float(y2 - y1)]
 
             cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
 
-    print(minLength)
     lines_edges = cv2.addWeighted(img, 0.8, line_image, 1, 0)
 
 
 
     cv2.imwrite("skrrr.png", lines_edges)
-    plt.show()
+    #plt.show()
     return minLength[1]
 
+def valid(x, y, w, h):
+    return (0 <= x < w) and (0 <= y < h)
+
 def raytrace(img, p, d):
-    print(img)
     cv2.circle(img, (10,0), 3, (0, 255, 0, 255), -1)
     curr = [p[1], p[0]]
     pix = np.array([77, 77, 77, 255])
@@ -66,12 +65,11 @@ def raytrace(img, p, d):
     for i in range(200):
         intcurr = (int(curr[0]), int(curr[1]))
         if walls[intcurr[1]][intcurr[0]] > 0:
-            if walls[intcurr[1]][intcurr[0]+10]>0 or walls[intcurr[1]][intcurr[0]-10]>0:
+            if (valid(intcurr[1] + 10, intcurr[0], 690, 430) and walls[intcurr[1]][intcurr[0]+10]>0) or (valid(intcurr[1] - 10, intcurr[0], 690, 430) and walls[intcurr[1]][intcurr[0]-10]>0):
                 d = [-d[0], d[1]]
                 curr = [curr[0] + d[1], curr[1] + d[0]]
                 intcurr = (int(curr[0]), int(curr[1]))
                 if walls[intcurr[1]][intcurr[0]] > 0:
-                    print("f")
                     d = [-d[0], -d[1]]
                     curr = [curr[0] + d[1], curr[1] + d[0]]
                     intcurr = (int(curr[0]), int(curr[1]))
@@ -80,7 +78,6 @@ def raytrace(img, p, d):
                 curr = [curr[0] + d[1], curr[1] + d[0]]
                 intcurr = (int(curr[0]), int(curr[1]))
                 if walls[intcurr[1]][intcurr[0]] > 0:
-                    print("f")
                     d = [-d[0], -d[1]]
                     curr = [curr[0] + d[1], curr[1] + d[0]]
                     intcurr = (int(curr[0]), int(curr[1]))
