@@ -14,7 +14,7 @@ def left():
 	pyautogui.keyUp("s")
 def forward():
 	pyautogui.keyDown("e")
-	time.sleep(0.5)
+	time.sleep(0.1)
 	pyautogui.keyUp("e")
 def backward():
 	pyautogui.keyDown("d")
